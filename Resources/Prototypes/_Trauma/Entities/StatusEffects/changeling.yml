@@ -1,0 +1,6 @@
+- type: entity
+  parent: StatusEffectBase
+  id: StatusEffectFleshmend
+  name: fleshmend
+  components:
+  - type: Fleshmend

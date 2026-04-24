@@ -367,12 +367,13 @@ public sealed partial class StatusEffectsSystem
         if (!_containerQuery.TryComp(target, out var container))
             return false;
 
+        var query = GetEntityQuery<T>(); // Trauma
         foreach (var effect in container.ActiveStatusEffects?.ContainedEntities ?? [])
         {
             if (!_effectQuery.TryComp(effect, out var statusComp))
                 continue;
 
-            if (TryComp<T>(effect, out var comp))
+            if (query.TryComp(effect, out var comp)) // Trauma - use query from above
             {
                 effects ??= [];
                 effects.Add((effect, comp, statusComp));
