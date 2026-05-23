@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Content.Client.LinkAccount;
+using Content.Shared.Dataset; // inky
 using Content.Shared.GameTicking;
 using Content.Shared.Random.Helpers;
 using Content.Trauma.Common.CCVar;
@@ -31,6 +32,10 @@ public sealed partial class RoundEndCreditsSystem : EntitySystem
     private float _uiScale;
     private bool Debug = false; // Set this to true if you want a bunch of dummy characters to spawn
 
+    // <inky>
+    private ProtoId<LocalizedDatasetPrototype> datasetId = "ShoutoutDataset";
+    // </inky>
+
     public override void Initialize()
     {
         base.Initialize();
@@ -55,6 +60,10 @@ public sealed partial class RoundEndCreditsSystem : EntitySystem
             return;
 
         var shoutout = "John Nanotrasen";
+        // <inky>
+        if (_proto.TryIndex(datasetId, out var dataset))
+            shoutout = _random.Pick(_proto.Index(datasetId));
+        // </inky>
         if (_linkAccount.GetPatrons().Count != 0)
             shoutout = _random.Pick(_linkAccount.GetPatrons()).Name;
 
