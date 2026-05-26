@@ -277,12 +277,12 @@
   - type: Sprite
     sprite: _EinsteinEngines/Mobs/Species/IPC/organs.rsi
   # TODO SHITMED: make it so you can only eat it with rock eater or something
-  - type: SolutionContainerManager
-    solutions:
-      food:
-        reagents:
-        - ReagentId: Oil
-          Quantity: 10
+  - type: Solution
+    id: food
+    solution:
+      reagents:
+      - ReagentId: Oil
+        Quantity: 10
 
 - type: entity
   abstract: true

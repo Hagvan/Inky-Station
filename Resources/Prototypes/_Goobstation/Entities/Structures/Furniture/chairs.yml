@@ -100,13 +100,13 @@
     runoverRadius: 1
     airTime: 1.2
     canRunOver: false
-  - type: SolutionContainerManager
-    solutions:
-      fuel:
-        maxVol: 100
-        reagents:
-        - ReagentId: Water
-          Quantity: 100
+  - type: Solution
+    id: fuel
+    solution:
+      maxVol: 100
+      reagents:
+      - ReagentId: Water
+        Quantity: 100
   - type: RefillableSolution
     solution: fuel
 

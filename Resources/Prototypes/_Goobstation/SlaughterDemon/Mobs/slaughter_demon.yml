@@ -30,9 +30,7 @@
     - Stutter
     - Electrocution
     - ForcedSleep
-    - TemporaryBlindness
     - Pacified
-    - RadiationProtection
     - Drowsiness
     - Adrenaline
   - type: MobMover

@@ -8,7 +8,6 @@
     sprite: _Trauma/Objects/Materials/Sheets/other.rsi # Trauma
   - type: Item
     sprite: _Trauma/Objects/Materials/Sheets/other.rsi # Trauma
-    sprite: Objects/Materials/Sheets/other.rsi
 
 - type: entity
   parent: SheetOtherBase

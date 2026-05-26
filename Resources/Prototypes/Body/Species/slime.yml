@@ -200,12 +200,11 @@
   suffix: slime person
   # <Shitmed>
   components:
-  - type: SolutionContainerManager
-    solutions:
-      food:
-        reagents:
-        - ReagentId: Slime
-          Quantity: 15
+  - type: Solution
+    solution:
+      reagents:
+      - ReagentId: Slime
+        Quantity: 15
   # </Shitmed>
 
 - type: entity
@@ -307,15 +306,11 @@
   name: gas sacs
   components:
   # <Shitmed>
-  - type: SolutionContainerManager
-    solutions:
-      Lung:
-        maxVol: 100.0
-        canReact: false
-      food:
-        reagents:
-        - ReagentId: Slime
-          Quantity: 15
+  - type: Solution
+    solution:
+      reagents:
+      - ReagentId: Slime
+        Quantity: 15
   # </Shitmed>
   - type: Lung
     alert: LowNitrogen

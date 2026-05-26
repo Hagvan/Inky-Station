@@ -120,7 +120,7 @@
 - type: entity
   name: breadling
   id: MobBreadLing
-  parent: [EdibleBase, SimpleMobBase, MobCombat]
+  parent: [FoodBase, SimpleMobBase, MobCombat]
   description: Be kind to him, he is not long for this world.
   components:
   - type: FlavorProfile
@@ -128,13 +128,12 @@
     - bread
   - type: SliceableFood
     slice: FoodBreadPlainSlice
-  - type: SolutionContainerManager
-    solutions:
-      food:
-        maxVol: 25
-        reagents:
-        - ReagentId: Nutriment
-          Quantity: 25
+  - type: Solution
+    solution:
+      maxVol: 25
+      reagents:
+      - ReagentId: Nutriment
+        Quantity: 25
   - type: Sprite
     noRot: true
     drawdepth: Mobs

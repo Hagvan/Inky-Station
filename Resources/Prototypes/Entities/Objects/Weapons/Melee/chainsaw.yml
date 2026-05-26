@@ -4,6 +4,15 @@
   id: Chainsaw
   description: A very large chainsaw. Usually you use this for cutting down trees... usually.
   components:
+  # Trauma>
+  - type: BoneSaw
+    speed: 0.5 # TODO: arm-mounted version becomes 0.65
+  - type: SurgeryTool
+    startSound:
+      path: /Audio/Weapons/chainsawwield.ogg
+    endSound:
+      path: /Audio/Weapons/chainsaw.ogg
+  # <Trauma>
   - type: Wieldable
     wieldSound: !type:SoundPathSpecifier
       path: /Audio/Weapons/chainsawwield.ogg
@@ -38,9 +47,6 @@
         Structural: 4
   - type: Item
     size: Large
-    shape:
-    - 0,0,2,2
-    sprite: Objects/Weapons/Melee/chainsaw.rsi
   # <Trauma>
     shape:
     - 0,0,1,1
@@ -48,14 +54,7 @@
     storedRotation: 45
     storedOffset: -15,6
   # </Trauma>
-
+    sprite: Objects/Weapons/Melee/chainsaw.rsi
   - type: DisarmMalus
   - type: UseDelay
     delay: 1
-  - type: BoneSaw # Shitmed
-    speed: 0.5 # TODO: arm-mounted version becomes 0.65
-  - type: SurgeryTool # Shitmed
-    startSound:
-      path: /Audio/Weapons/chainsawwield.ogg
-    endSound:
-      path: /Audio/Weapons/chainsaw.ogg

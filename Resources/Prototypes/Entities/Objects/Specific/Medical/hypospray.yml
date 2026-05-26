@@ -328,7 +328,7 @@
       - ReagentId: Bicaridine
         Quantity: 5 # Trauma - was 15
       # <Trauma>
-      - ReagentId: SalicyclicAcid
+      - ReagentId: SalicylicAcid
         Quantity: 5
       - ReagentId: Tramadol
         Quantity: 5

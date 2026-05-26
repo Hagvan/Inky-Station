@@ -207,7 +207,7 @@
     graph: SofasGraph
     node: BenchSofaMiddleNode
   - type: StaticPrice
-    price: 50: 25
+    price: 50
 
 - type: entity
   id: BenchSofaLeft
@@ -279,7 +279,7 @@
     graph: SofasGraph
     node: BenchSofaCorpMiddleNode
   - type: StaticPrice
-    price: 50: 25
+    price: 50
 
 - type: entity
   id: BenchSofaCorpLeft

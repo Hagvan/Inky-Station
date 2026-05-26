@@ -3,8 +3,8 @@
 namespace Content.Trauma.Shared.Heretic.Components.PathSpecific.Ash;
 
 [RegisterComponent, NetworkedComponent]
-public sealed partial class TemporaryBlindnessImmunityComponent : Component
+public sealed partial class BlindnessImmunityComponent : Component
 {
     [DataField]
-    public string Key = "TemporaryBlindness";
+    public EntProtoId Key = "StatusEffectBlindness";
 }

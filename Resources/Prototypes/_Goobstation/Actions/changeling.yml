@@ -682,7 +682,7 @@
     event: !type:EffectInstantActionEvent
   - type: EffectAction
     effects:
-    - !type:ModifyEffect
+    - !type:ModifyStatusEffect
       effectProto: StatusEffectFleshmend
       time: 10
     - !type:PopupMessage
