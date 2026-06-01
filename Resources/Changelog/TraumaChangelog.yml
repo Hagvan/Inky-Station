@@ -9548,3 +9548,10 @@ Entries:
   id: 1083
   time: '2026-06-01T18:32:46.0000000+00:00'
   url: https://github.com/Trauma-Station/Trauma-Station/pull/2943
+- author: deltanedas
+  changes:
+  - type: Tweak
+    message: Human kidneys now sell for $6000.
+  id: 1084
+  time: '2026-06-01T19:38:26.0000000+00:00'
+  url: https://github.com/Trauma-Station/Trauma-Station/pull/2975
