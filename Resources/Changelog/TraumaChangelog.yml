@@ -9517,3 +9517,10 @@ Entries:
   id: 1080
   time: '2026-06-01T17:26:43.0000000+00:00'
   url: https://github.com/Trauma-Station/Trauma-Station/pull/2812
+- author: deltanedas
+  changes:
+  - type: Fix
+    message: Fixed helmets having a broken examine for their vision decrease.
+  id: 1081
+  time: '2026-06-01T17:57:24.0000000+00:00'
+  url: https://github.com/Trauma-Station/Trauma-Station/pull/2974
