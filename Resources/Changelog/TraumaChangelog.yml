@@ -9708,3 +9708,12 @@ Entries:
   id: 1099
   time: '2026-06-04T09:39:36.0000000+00:00'
   url: https://github.com/Trauma-Station/Trauma-Station/pull/3037
+- author: deltanedas
+  changes:
+  - type: Fix
+    message: >-
+      Fixed abductor, xeno and slaughter demon ghost roles not spawning you when
+      you win the raffle due to not meeting the playtime requirements.
+  id: 1100
+  time: '2026-06-04T10:08:30.0000000+00:00'
+  url: https://github.com/Trauma-Station/Trauma-Station/pull/3038
