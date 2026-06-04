@@ -9742,3 +9742,10 @@ Entries:
   id: 1103
   time: '2026-06-04T23:44:48.0000000+00:00'
   url: https://github.com/Trauma-Station/Trauma-Station/pull/3039
+- author: MoxieIsMoxie
+  changes:
+  - type: Tweak
+    message: Resprited the Outcast & Jealousy Incarnate demons.
+  id: 1104
+  time: '2026-06-04T23:59:00.0000000+00:00'
+  url: https://github.com/Trauma-Station/Trauma-Station/pull/3043
