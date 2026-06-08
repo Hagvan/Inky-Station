@@ -9972,3 +9972,10 @@ Entries:
   id: 1128
   time: '2026-06-08T17:07:31.0000000+00:00'
   url: https://github.com/Trauma-Station/Trauma-Station/pull/3102
+- author: deltanedas
+  changes:
+  - type: Fix
+    message: Fixed devil contracts mispredicting for the devil.
+  id: 1129
+  time: '2026-06-08T18:51:53.0000000+00:00'
+  url: https://github.com/Trauma-Station/Trauma-Station/pull/3110
