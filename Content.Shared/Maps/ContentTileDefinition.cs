@@ -32,7 +32,7 @@ namespace Content.Shared.Maps
         public ushort TileId { get; private set; }
 
         [DataField(required: true)] // Trauma - required
-        public LocId Name { get; private set; } // Trauma - use LocId
+        public string Name { get; private set; } = "";
         [DataField("sprite")] public ResPath? Sprite { get; private set; }
 
         [DataField("edgeSprites")] public Dictionary<Direction, ResPath> EdgeSprites { get; private set; } = new();
@@ -52,13 +52,6 @@ namespace Content.Shared.Maps
 
         [DataField]
         public PrototypeFlags<ToolQualityPrototype> DeconstructTools { get; set; } = new();
-
-        /// <summary>
-        /// Goobstation
-        /// Tile deconstruct do-after time multiplier
-        /// </summary>
-        [DataField]
-        public float DeconstructTimeMultiplier { get; private set; }
 
         /// <summary>
         /// Effective mass of this tile for grid impacts.
@@ -145,11 +138,5 @@ namespace Content.Shared.Maps
         {
             TileId = id;
         }
-
-        [DataField]
-        public bool Reinforced = false;
-
-        [DataField]
-        public float TileRipResistance = 125f;
     }
 }
