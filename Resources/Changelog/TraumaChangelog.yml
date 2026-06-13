@@ -10109,3 +10109,10 @@ Entries:
   id: 1144
   time: '2026-06-13T05:04:58.0000000+00:00'
   url: https://github.com/Trauma-Station/Trauma-Station/pull/3153
+- author: deltanedas
+  changes:
+  - type: Fix
+    message: Fixed all IPC organs/parts just being called "organ".
+  id: 1145
+  time: '2026-06-13T05:44:37.0000000+00:00'
+  url: https://github.com/Trauma-Station/Trauma-Station/pull/3157
