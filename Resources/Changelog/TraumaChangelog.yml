@@ -10177,3 +10177,10 @@ Entries:
   id: 1152
   time: '2026-06-14T16:40:50.0000000+00:00'
   url: https://github.com/Trauma-Station/Trauma-Station/pull/3135
+- author: deltanedas
+  changes:
+  - type: Fix
+    message: Fixed librarians getting the wrong skillchip.
+  id: 1153
+  time: '2026-06-14T21:33:17.0000000+00:00'
+  url: https://github.com/Trauma-Station/Trauma-Station/pull/3185
