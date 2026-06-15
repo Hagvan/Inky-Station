@@ -1351,6 +1351,9 @@
   id: SecurityShoes
   name: loadout-group-security-shoes
   loadouts:
+  # inky
+  - LoadoutClothingShoesElysiumShoes # ts shoooould only appear in the det loadout now idk
+  # /inky
   - JackBoots
   - CombatBoots # Goobstation
   - SecurityWinterBoots
@@ -1382,6 +1385,9 @@
   name: loadout-group-detective-neck
   minLimit: 0
   loadouts:
+  # inky
+  - LoadoutClothingNeckTieElysium
+  # /inky
   - DetectiveTie
   - Bodycam # Goobstation - Body cameras
 
@@ -1389,6 +1395,10 @@
   id: DetectiveJumpsuit
   name: loadout-group-detective-jumpsuit
   loadouts:
+  # inky
+  - LoadoutClothingUniformJumpsuitElysium
+  - LoadoutClothingShoesElysiumShoes
+  # /inky
   - DetectiveJumpsuit
   - DetectiveJumpskirt
   - NoirJumpsuit
@@ -1398,6 +1408,9 @@
   id: DetectiveOuterClothing
   name: loadout-group-detective-outerclothing
   loadouts:
+  # inky
+  - LoadoutClothingOuterCoatDiscoBlazer
+  # /inky
   - DetectiveArmorVest
   - DetectiveCoat
   - DetectiveCoatGrey
