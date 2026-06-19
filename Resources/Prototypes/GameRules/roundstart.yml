@@ -186,8 +186,8 @@
     # inky - fuck hypoports
     #- !type:NestedEffect
     #  proto: InstallHypoportNukie
-    - !type:NestedEffect
-      proto: InstallSkillChipNukie
+#    - !type:NestedEffect
+#      proto: InstallSkillChipNukie
 
 - type: entity
   parent: [ BaseNukeopsRule, BaseRoundstartAntagRule ]
