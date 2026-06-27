@@ -285,6 +285,19 @@
     icon: { sprite: Objects/Weapons/Melee/shields.rsi, state: teleriot-icon }
     iconOn: { sprite: Objects/Weapons/Melee/shields.rsi, state: teleriot-on }
 
+    # inky temporary start
+- type: entity
+  parent: BaseAction
+  id: ActionShieldCharge
+  name: Shield Charge
+  description: AAAAAAAAAAAAAAAAA!!!
+  components:
+  - type: Action
+    icon: { sprite: Objects/Weapons/Melee/shields.rsi, state: teleriot-icon }
+  - type: InstantAction
+    event: !type:ShieldChargeEvent
+    # inky temporary end
+
 - type: entity
   parent: BaseMentalAction
   id: ActionClearNetworkLinkOverlays

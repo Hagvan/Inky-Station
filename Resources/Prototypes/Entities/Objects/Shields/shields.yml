@@ -103,6 +103,7 @@
                   max: 2
     - type: StaticPrice
       price: 100
+    - type: ShieldCharge # Inky temporary
 
 - type: entity
   name: base repairable shield
