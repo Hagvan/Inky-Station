@@ -54,25 +54,7 @@ public sealed partial class SharedShieldChargeSystem : EntitySystem
 
     private void OnUseInHand(Entity<SharedShieldChargeComponent> ent, ref UseInHandEvent args)
     {
-        if (TryComp<CombatModeComponent>(ent.Comp.User, out var comp) && comp.IsInCombatMode)
-        {
-            if (TryComp<InputMoverComponent>(ent.Comp.User, out var inputMoverComponent))
-            {
-                inputMoverComponent.CanMove = false;
-                Dirty(ent.Comp.User.Value, inputMoverComponent);
-                ent.Comp.IsCharging = true;
-                ent.Comp.ChargeStartTime = _timing.CurTime;
-                ent.Comp.PrevTime = _timing.CurTime;
-                if (TryComp<TransformComponent>(ent.Comp.User, out var transformComponent))
-                {
-                    ent.Comp.ChargeDirection = transformComponent.LocalRotation;
-                }
-                var chargingComp = EnsureComp<ShieldChargingComponent>(ent.Comp.User.Value);
-                chargingComp.ChargeProvider = ent.Owner;
-                EnsureComp<SharedActiveShieldChargeComponent>(ent.Owner);
-                Dirty(ent);
-            }
-        }
+        StartCharge(ent.Owner, ent.Comp);
     }
 
     private void OnShieldBashRequest(ShieldBashRequestEvent ev)
@@ -156,30 +138,34 @@ public sealed partial class SharedShieldChargeSystem : EntitySystem
 
     private void OnAction(Entity<SharedShieldChargeComponent> ent, ref ShieldChargeEvent args)
     {
-        if (TryComp<CombatModeComponent>(ent.Comp.User, out var comp) && comp.IsInCombatMode)
-        {
-            if (TryComp<InputMoverComponent>(ent.Comp.User, out var inputMoverComponent))
-            {
-                inputMoverComponent.CanMove = false;
-                Dirty(ent.Comp.User.Value, inputMoverComponent);
-                ent.Comp.IsCharging = true;
-                ent.Comp.ChargeStartTime = _timing.CurTime;
-                ent.Comp.PrevTime = _timing.CurTime;
-                if (TryComp<TransformComponent>(ent.Comp.User, out var transformComponent))
-                {
-                    ent.Comp.ChargeDirection = transformComponent.LocalRotation;
-                }
-                var chargingComp = EnsureComp<ShieldChargingComponent>(ent.Comp.User.Value);
-                chargingComp.ChargeProvider = ent.Owner;
-                EnsureComp<SharedActiveShieldChargeComponent>(ent.Owner);
-                Dirty(ent);
-            }
-        }
+        StartCharge(ent.Owner, ent.Comp);
     }
 
     private void OnGetActions(EntityUid uid, SharedShieldChargeComponent component, GetItemActionsEvent args)
     {
         args.AddAction(ref component.ShieldChargeActionEntity, component.ShieldChargeAction);
+    }
+
+
+    private void StartCharge(EntityUid uid, SharedShieldChargeComponent component)
+    {
+        if (TryComp<CombatModeComponent>(component.User, out var comp) && comp.IsInCombatMode)
+        {
+            if (TryComp<InputMoverComponent>(component.User, out var inputMoverComponent))
+            {
+                inputMoverComponent.CanMove = false;
+                Dirty(component.User.Value, inputMoverComponent);
+                component.IsCharging = true;
+                component.ChargeStartTime = _timing.CurTime;
+                component.PrevTime = _timing.CurTime;
+                if (TryComp<TransformComponent>(component.User, out var transformComponent))
+                    component.ChargeDirection = transformComponent.LocalRotation;
+                var chargingComp = EnsureComp<ShieldChargingComponent>(component.User.Value);
+                chargingComp.ChargeProvider = uid;
+                EnsureComp<SharedActiveShieldChargeComponent>(uid);
+                Dirty(uid, component);
+            }
+        }
     }
 
     private void EndCharge(EntityUid uid, SharedShieldChargeComponent component)
@@ -192,7 +178,9 @@ public sealed partial class SharedShieldChargeSystem : EntitySystem
         component.IsCharging = false;
         RemComp<SharedActiveShieldChargeComponent>(uid);
         if (component.User.HasValue)
+        {
             RemComp<ShieldChargingComponent>(component.User.Value);
+        }
         Dirty(uid, component);
     }
 }

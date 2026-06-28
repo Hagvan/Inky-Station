@@ -39,4 +39,7 @@ public sealed partial class SharedShieldChargeComponent : Component
 
     [DataField, AutoNetworkedField]
     public float ChargeVelocity = 24f;
+
+    // Only relevant for client
+    public Vector2 LastAfterimagePosition;
 }
