@@ -29,6 +29,14 @@ public sealed partial class ClientShieldChargeAfterimageSystem : EntitySystem
             {
                 var transform = Transform(chargerComp.User.Value);
                 var coordinates = transform.Coordinates;
+
+                if (chargerComp.LastAfterimageTime < chargerComp.ChargeStartTime) // was last afterimage from a previous charge? if so, reset it to the current time
+                {
+                    chargerComp.LastAfterimageTime = _timing.CurTime;
+                    chargerComp.LastAfterimagePosition = coordinates.Position;
+                    continue;
+                }
+
                 var prevAfterimage = chargerComp.LastAfterimagePosition;
                 var dist = Vector2.Distance(prevAfterimage, coordinates.Position);
                 var dir = (coordinates.Position - prevAfterimage).Normalized();
@@ -40,6 +48,7 @@ public sealed partial class ClientShieldChargeAfterimageSystem : EntitySystem
                     SpawnAfterimage(chargerComp.User.Value, new MapCoordinates(pos, transform.MapID), _timing.CurTime);
                 }
                 chargerComp.LastAfterimagePosition = pos;
+                chargerComp.LastAfterimageTime = _timing.CurTime;
             }
         }
 

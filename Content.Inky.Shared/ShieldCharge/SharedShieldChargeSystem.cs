@@ -5,10 +5,13 @@ using Content.Shared.Damage.Systems;
 using Content.Shared.Hands;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Movement.Components;
+using Content.Shared.Speech.Components;
+using Robust.Shared.Audio.Systems;
 using Robust.Shared.Network;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Physics.Systems;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 using Robust.Shared.Timing;
 
@@ -20,6 +23,9 @@ public sealed partial class SharedShieldChargeSystem : EntitySystem
     [Dependency] private IGameTiming _timing = default!;
     [Dependency] private SharedStaminaSystem _stamina = default!;
     [Dependency] private INetManager _net = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private IPrototypeManager _proto = default!;
+
 
     public override void Initialize()
     {
@@ -69,7 +75,7 @@ public sealed partial class SharedShieldChargeSystem : EntitySystem
                 _stamina.TakeStaminaDamage(target, chargeComp.ChargeVelocity * 8f * (float) (_timing.CurTime - chargeComp.ChargeStartTime).TotalSeconds);
             inputMoverComponent.CanMove = true;
             Dirty(chargeComp.User.Value, inputMoverComponent);
-            EndCharge(chargeProvider, chargeComp);
+            EndCharge(chargeProvider, chargeComp, collided: true, hitEntity: true);
         }
     }
 
@@ -102,11 +108,17 @@ public sealed partial class SharedShieldChargeSystem : EntitySystem
                         chargerComp.ChargeDirection += delta;
                     }
 
+                    if (_timing.CurTime > chargerComp.ChargeStartTime + chargerComp.Duration)
+                    {
+                        EndCharge(uid, chargerComp);
+                        continue;
+                    }
+
                     if (_timing.CurTime > chargerComp.ChargeStartTime + chargerComp.GracePeriod
                         && physicsComponent.LinearVelocity.Length() < 1f
                         || _timing.CurTime > chargerComp.ChargeStartTime + chargerComp.Duration)
                     {
-                        EndCharge(uid, chargerComp);
+                        EndCharge(uid, chargerComp, collided: true);
                         continue;
                     }
 
@@ -164,11 +176,32 @@ public sealed partial class SharedShieldChargeSystem : EntitySystem
                 chargingComp.ChargeProvider = uid;
                 EnsureComp<SharedActiveShieldChargeComponent>(uid);
                 Dirty(uid, component);
+                if (TryComp<VocalComponent>(component.User, out var vocalComponent) && vocalComponent.EmoteSounds is { } sounds)
+                {
+                    var proto = _proto.Index(sounds);
+                    if (proto == null)
+                        return;
+
+                    // try to get specific sound for this emote
+                    if (!proto.Sounds.TryGetValue(vocalComponent.ScreamId, out var sound))
+                    {
+                        // no specific sound - check fallback
+                        sound = proto.FallbackSound;
+                        if (sound == null)
+                            return;
+                    }
+
+                    // optional override params > general params for all sounds in set > individual sound params
+                    var param = sound.Params;
+                    param.Pitch *= 0.82f;
+
+                    _audio.PlayPredicted(sound, uid, component.User.Value, param);
+                }
             }
         }
     }
 
-    private void EndCharge(EntityUid uid, SharedShieldChargeComponent component)
+    private void EndCharge(EntityUid uid, SharedShieldChargeComponent component, bool collided = false, bool hitEntity = false)
     {
         if (TryComp<InputMoverComponent>(component.User, out var inputMoverComponent))
         {
@@ -182,6 +215,16 @@ public sealed partial class SharedShieldChargeSystem : EntitySystem
             RemComp<ShieldChargingComponent>(component.User.Value);
         }
         Dirty(uid, component);
+        if (collided)
+            if (hitEntity)
+            {
+                if ((_timing.CurTime - component.ChargeStartTime).TotalSeconds >= 1.125)
+                    _audio.PlayPredicted(component.StrongEntityCollisionSound, uid, component.User);
+                else
+                    _audio.PlayPredicted(component.EntityCollisionSound, uid, component.User);
+            }
+            else
+                _audio.PlayPredicted(component.WallCollisionSound, uid, component.User);
     }
 }
 

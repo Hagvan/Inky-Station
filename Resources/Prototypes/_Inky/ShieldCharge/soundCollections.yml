@@ -1,0 +1,12 @@
+- type: soundCollection
+  id: ShieldWallCollisionSounds
+  files:
+    - /Audio/Weapons/block_metal1.ogg
+    - /Audio/Weapons/smash.ogg
+
+- type: soundCollection
+  id: ShieldEntityCollisionSounds
+  files:
+    - /Audio/Weapons/genhit1.ogg
+    - /Audio/Weapons/genhit2.ogg
+    - /Audio/Weapons/genhit3.ogg

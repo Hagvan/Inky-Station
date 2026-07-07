@@ -143,5 +143,6 @@ public sealed partial class VocalSystem : EntitySystem
             return;
 
         component.EmoteSounds = protoId;
+        Dirty(uid, component); // Inky - make sure client can predict scream sound
     }
 }

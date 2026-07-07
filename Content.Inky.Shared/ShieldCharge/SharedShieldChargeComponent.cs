@@ -1,3 +1,4 @@
+using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
@@ -14,13 +15,13 @@ public sealed partial class SharedShieldChargeComponent : Component
     [DataField, AutoNetworkedField]
     public TimeSpan ChargeStartTime;
     [DataField, AutoNetworkedField]
-    public TimeSpan Duration = TimeSpan.FromSeconds(2.5f);
+    public TimeSpan Duration = TimeSpan.FromSeconds(1.5f);
     [DataField, AutoNetworkedField]
     public TimeSpan GracePeriod = TimeSpan.FromSeconds(0.3f);
 
     // Charge characteristics
     [DataField, AutoNetworkedField]
-    public float TurnRate = 110f;
+    public float TurnRate = 180f;
 
     // Technical stuff - update method
     [DataField, AutoNetworkedField]
@@ -40,6 +41,14 @@ public sealed partial class SharedShieldChargeComponent : Component
     [DataField, AutoNetworkedField]
     public float ChargeVelocity = 24f;
 
+    [DataField, AutoNetworkedField]
+    public SoundSpecifier WallCollisionSound = new SoundCollectionSpecifier("ShieldWallCollisionSounds");
+    [DataField, AutoNetworkedField]
+    public SoundSpecifier EntityCollisionSound = new SoundCollectionSpecifier("WeakHit");
+    [DataField, AutoNetworkedField]
+    public SoundSpecifier StrongEntityCollisionSound = new SoundCollectionSpecifier("ShieldEntityCollisionSounds");
+
     // Only relevant for client
-    public Vector2 LastAfterimagePosition;
+    public Vector2 LastAfterimagePosition = Vector2.Zero;
+    public TimeSpan LastAfterimageTime = TimeSpan.Zero;
 }
