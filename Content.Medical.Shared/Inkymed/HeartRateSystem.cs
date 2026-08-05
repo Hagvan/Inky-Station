@@ -2,6 +2,8 @@ using Content.Inky.Common.Medical;
 using Content.Medical.Shared.Body;
 using Content.Shared.Alert;
 using Content.Shared.Body;
+using Content.Shared.Body.Components;
+using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Rejuvenate;
@@ -16,6 +18,8 @@ public sealed partial class HeartRateSystem : EntitySystem // todo godmode bypas
     [Dependency] private IGameTiming _timing = default!;
     [Dependency] private BodySystem _body = default!;
     [Dependency] private IRobustRandom _gambling = default!;
+    [Dependency] private SharedSolutionContainerSystem _solutionContainer = default!;
+    [Dependency] private EntityQuery<BloodstreamComponent> _blood = default!;
 
     private static readonly float HeartStop = 0f;
     private static readonly TimeSpan UpdateInterval = TimeSpan.FromSeconds(1);
@@ -59,12 +63,20 @@ public sealed partial class HeartRateSystem : EntitySystem // todo godmode bypas
 
     private void UpdateHeart(EntityUid uid, HeartComponent heart, OrganComponent organ)
     {
-        if ((organ.Body is not { } body // the heart is outside a body
-            || !TryComp<MobStateComponent>(body, out var mobState) // or the body is not a mob
+        var maybeBody = organ.Body;
+        var beyondCritical = Math.Max(0, heart.CurrentRate / heart.CriticalRate - 1);
+        if (maybeBody is null // the heart is outside a body
+            || !TryComp<MobStateComponent>(maybeBody, out var mobState) // or the body is not a mob
             || mobState.CurrentState == MobState.Dead // or the body is dead
-            || heart.CurrentRate > heart.CriticalRate) // or the heart is beyond critical
-        && _gambling.Prob(heart.CriticalStopChance)) // and also you're unlucky enough
-            SetRate(uid, heart, HeartStop, false);
+            || beyondCritical > 0)
+        {
+            var chance = heart.CriticalStopChance * (1 + beyondCritical);
+            if (_gambling.Prob(chance))
+                SetRate(uid, heart, HeartStop, false);
+        }
+
+        if (maybeBody is { } body)
+            DoBloodVolume(uid, heart, body);
 
         // fibrillating drifts AWAY from the normal heart rate (towards min/max)
         // being stable drifts TOWARDS the normal heart rate
@@ -87,6 +99,22 @@ public sealed partial class HeartRateSystem : EntitySystem // todo godmode bypas
                 args.Found = true;
                 return;
             }
+    }
+
+    private void DoBloodVolume(EntityUid uid, HeartComponent heart, EntityUid body)
+    {
+        if (!_blood.TryComp(body, out var blood)
+            || !_solutionContainer.ResolveSolution(body, blood.BloodSolutionName, ref blood.BloodSolution, out var solution)
+            || blood.BloodReferenceSolution.Volume <= 0
+            || heart.CurrentRate <= HeartStop)
+            return;
+
+        // if the bloodstream has more blood that its max it shouldnt slow down the heart todo inkymed hypervolemia?
+        var bloodPart = Math.Min(1f, (solution.Volume / blood.BloodReferenceSolution.Volume).Float());
+
+        var newRate = heart.NormalRate * (2 - bloodPart); // i.e. 30% of bs volume = +70% to the bpm
+        if (newRate > heart.CurrentRate)
+            SetRate(uid, heart, newRate, false);
     }
 
     #region api
